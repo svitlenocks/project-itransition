@@ -1,0 +1,37 @@
+<h1>Compaigns</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Goal</th>
+      <th>Endtime</th>
+      <th>Video</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @compaigns.each do |compaign| %>
+      <tr>
+        <td><%= compaign.title %></td>
+        <td><%= compaign.description %></td>
+        <td><%= compaign.goal %></td>
+        <td><%= compaign.endtime %></td>
+        <td><%= compaign.video %></td>
+        <td><%= compaign.user.name %></td>
+        <td><%= link_to 'Show', compaign %></td>
+        <% if current_user && current_user.admin %>
+          <td><%= link_to 'Edit', edit_compaign_path(compaign) %></td>
+          <td><%= link_to 'Destroy', compaign, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Compaign', new_compaign_path %>

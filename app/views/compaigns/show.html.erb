@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @compaign.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @compaign.description %>
+</p>
+
+<p>
+  <strong>Goal:</strong>
+  <%= @compaign.goal %>
+</p>
+
+<p>
+  <strong>Endtime:</strong>
+  <%= @compaign.endtime %>
+</p>
+
+<p>
+  <strong>Video:</strong>
+  <%= @compaign.video %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @compaign.user.name %>
+</p>
+<% if current_user && current_user.email == @compaign.user.email %>
+  <%= link_to 'Edit', edit_compaign_path(@compaign) %> |
+<% end %>
+<%= link_to 'Back', compaigns_path %>
