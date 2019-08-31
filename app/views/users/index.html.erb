@@ -1,0 +1,32 @@
+<%= form_tag admin_actions_users_admin_index_path, method: :patch do %>
+  <table class="footable table table-bordered toggle-arrow-tiny" data-page-size="31" data-filter=#filter>
+    <thead>
+      <tr>
+        <th>Check</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= check_box_tag "users_ids[]", user.id, false, class: 'selectable' %></td>
+          <td>
+            <%= user.name %>
+            <% if user.admin %>
+            -------------admin
+            <% end %>  
+          </td>
+          <td><%= user.email %></td>
+        </tr>
+      <% end %>
+    </tbody>
+</table>
+
+<%= submit_tag "delete", :class => 'btn btn-primary btn-xs' %>
+<%= submit_tag "make admin", :class => 'btn btn-primary btn-xs' %>
+<%= submit_tag "delete admin", :class => 'btn btn-primary btn-xs' %>
+<%= submit_tag "lock", :class => 'btn btn-primary btn-xs' %>
+<%= submit_tag "unlock", :class => 'btn btn-primary btn-xs' %>
+
+<% end %>
