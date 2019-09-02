@@ -15,6 +15,9 @@
             <%= user.name %>
             <% if user.admin %>
             -------------admin
+            <% end %>
+            <% if user.locked%>
+            -------------locked
             <% end %>  
           </td>
           <td><%= user.email %></td>

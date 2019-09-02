@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'pages/lock'
+
   resources :compaigns
   root to: 'pages#home'
   devise_for :users

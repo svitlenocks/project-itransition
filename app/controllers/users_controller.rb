@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
+
   before_action :authenticate_user!
   before_action :admin?
+  before_action :locked?
 
   def index
     @users = User.all
@@ -80,6 +82,10 @@ class UsersController < ApplicationController
     if !current_user.admin
       redirect_to root_path
     end
+  end
+
+  def locked?
+    redirect_to pages_lock_path if current_user.locked
   end
 
 end
