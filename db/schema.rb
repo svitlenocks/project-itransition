@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_31_153424) do
+ActiveRecord::Schema.define(version: 2019_09_04_151810) do
+
+  create_table "benefits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.decimal "sum", precision: 10
+    t.bigint "compaign_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["compaign_id"], name: "index_benefits_on_compaign_id"
+  end
 
   create_table "compaigns", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -21,6 +31,8 @@ ActiveRecord::Schema.define(version: 2019_08_31_153424) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "project_idea"
+    t.string "category"
     t.index ["user_id"], name: "index_compaigns_on_user_id"
   end
 
@@ -42,5 +54,6 @@ ActiveRecord::Schema.define(version: 2019_08_31_153424) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "benefits", "compaigns"
   add_foreign_key "compaigns", "users"
 end

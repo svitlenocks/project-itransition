@@ -17,6 +17,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :project_idea %>
+    <%= form.text_field :project_idea %>
+  </div>
+
+  <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description %>
   </div>
@@ -28,13 +33,20 @@
 
   <div class="field">
     <%= form.label :endtime %>
-    <%= form.datetime_select :endtime %>
+    <%= form.datetime_select :endtime, prompt: { day: 'Select day', month: 'Select month', year: 'Select year'}, discard_hour: true, discard_minute: true, :start_year => Date.current.year, :end_year => Date.current.year + 100 %>
   </div>
 
   <div class="field">
     <%= form.label :video %>
     <%= form.text_field :video %>
   </div>
+
+  <div class="field">
+    <%= form.label :category %>
+    <%= form.collection_select :category, $categories, :to_s, :to_s, include_blank: false %>    
+  </div>
+
+  
 
   <div class="actions">
     <%= form.submit %>

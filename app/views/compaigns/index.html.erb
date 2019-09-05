@@ -4,10 +4,10 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Description</th>
+      <th>Category</th>
       <th>Goal</th>
+      <th>Project idea</th>
       <th>Endtime</th>
-      <th>Video</th>
       <th>User</th>
       <th colspan="3"></th>
     </tr>
@@ -17,13 +17,13 @@
     <% @compaigns.each do |compaign| %>
       <tr>
         <td><%= compaign.title %></td>
-        <td><%= compaign.description %></td>
-        <td><%= compaign.goal %></td>
-        <td><%= compaign.endtime %></td>
-        <td><%= compaign.video %></td>
+        <td><%= compaign.category %></td>        
+        <td><%= compaign.goal  %></td>
+        <td><%= compaign.project_idea %></td>
+        <td><%= compaign.endtime.strftime("%B %d, %Y") %></td>
         <td><%= compaign.user.name %></td>
         <td><%= link_to 'Show', compaign %></td>
-        <% if current_user && current_user.admin %>
+        <% if current_user && (current_user.admin || current_user.id == compaign.user_id) %>
           <td><%= link_to 'Edit', edit_compaign_path(compaign) %></td>
           <td><%= link_to 'Destroy', compaign, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
@@ -33,5 +33,3 @@
 </table>
 
 <br>
-
-<%= link_to 'New Compaign', new_compaign_path %>

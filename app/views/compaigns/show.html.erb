@@ -1,8 +1,16 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Title:</strong>
   <%= @compaign.title %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @compaign.category %>
+</p>
+
+<p>
+  <strong>Project idea:</strong>
+  <%= @compaign.project_idea %>
 </p>
 
 <p>
@@ -17,7 +25,7 @@
 
 <p>
   <strong>Endtime:</strong>
-  <%= @compaign.endtime %>
+  <%= @compaign.endtime.strftime("%B %d, %Y") %>
 </p>
 
 <p>
@@ -29,7 +37,21 @@
   <strong>User:</strong>
   <%= @compaign.user.name %>
 </p>
+
+<p>
+  <strong>Benefits:</strong>
+  <% @compaign.benefits.each do |benefit| %>
+    <div><%= benefit.title %></div>
+    <div><%= benefit.description %></div>
+    <% if current_user.id == @compaign.user_id || current_user.admin %>
+      <%= link_to 'Edit', edit_benefit_path(benefit) %> |
+      <%= link_to 'Destroy', benefit, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  <% end %>
+</p>
+
 <% if current_user && current_user.email == @compaign.user.email %>
   <%= link_to 'Edit', edit_compaign_path(@compaign) %> |
+  <%= link_to 'Create another one benefit', new_benefit_path(@compaign) %> |
 <% end %>
 <%= link_to 'Back', compaigns_path %>

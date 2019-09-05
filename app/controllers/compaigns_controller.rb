@@ -3,8 +3,12 @@ class CompaignsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   # GET /compaigns
   # GET /compaigns.json
+
+  $categories = %w(Art Comics Crafts Dance Design Fashion Film&Video Food Games Journalism Music Photography Publishing Technology Theater)
+
+
   def index
-    @compaigns = Compaign.all
+    @compaigns = Compaign.all.includes(:user)
   end
 
   # GET /compaigns/1
@@ -28,7 +32,7 @@ class CompaignsController < ApplicationController
     @compaign.user = current_user
     respond_to do |format|
       if @compaign.save
-        format.html { redirect_to @compaign, notice: 'Compaign was successfully created.' }
+        format.html { redirect_to new_benefit_url(@compaign), notice: 'Compaign was successfully created.' }
         format.json { render :show, status: :created, location: @compaign }
       else
         format.html { render :new }
@@ -69,6 +73,6 @@ class CompaignsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def compaign_params
-      params.require(:compaign).permit(:title, :description, :goal, :endtime, :video)
+      params.require(:compaign).permit(:title, :project_idea, :description, :goal, :endtime, :video, :category)
     end
 end
