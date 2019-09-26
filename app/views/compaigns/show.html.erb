@@ -1,57 +1,133 @@
-<p>
-  <strong>Title:</strong>
-  <%= @compaign.title %>
-</p>
+<div class="text-center mb-5">
+  <p>
+    <h1><%= @compaign.title %></h1>
+    <%= rating_for @compaign, 'rating', disable_after_rate: true, enable_half: true %>
+  </p>
 
-<p>
-  <strong>Category:</strong>
-  <%= @compaign.category %>
-</p>
+  <p>
+    <h4><%= @compaign.project_idea %></h4>
+  </p>
 
-<p>
-  <strong>Project idea:</strong>
-  <%= @compaign.project_idea %>
-</p>
+  <p>
+    <span class="badge badge-success badge-pill"><%= @compaign.category %></span>
+  </p>
+  <hr>
+</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @compaign.description %>
-</p>
+<div class="row mb-5">
+      <div class="col-lg-8">
+        <div class="image-frame">
+           <%= image_tag(@compaign.image) %>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="progress_bar mb-2">
+          <div class="progress_bar_green" style="width: <%= (@compaign.current_sum * 100)/@compaign.goal %>%">
+          </div>
+        </div>
+        <div><span class="current_sum">US$ <%= @compaign.current_sum %></span></div>
+        <div class="mb-5">
+          <small class="text-muted">pledged of US$ <%= @compaign.goal %> goal</small>  
+        </div>
+        <%= link_to 'Support the project', compaigns_support_path(@compaign), class: "btn btn-success btn-block" %>
+        <%= link_to "Updates", updates_path(@compaign), class: "btn btn-outline-success btn-block mb-5" %>
+        <small class="text-muted">This project will only be funded if it reaches its goal by <%= @compaign.endtime.strftime("%B %d, %Y") %>
+        </small>        
+        <div class="mt-5"><small class="text-muted">By <%= @compaign.user.name %></small></div>
+       </div>
+    </div>
+<hr>
+<div class="row">
+  <div class="col-lg-8"> 
+    <p>
+    <h3 class="mb-4">About</h3>
+      <%= markdown(@compaign.description) %>
+    </p>
 
-<p>
-  <strong>Goal:</strong>
-  <%= @compaign.goal %>
-</p>
-
-<p>
-  <strong>Endtime:</strong>
-  <%= @compaign.endtime.strftime("%B %d, %Y") %>
-</p>
-
-<p>
-  <strong>Video:</strong>
-  <%= @compaign.video %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @compaign.user.name %>
-</p>
-
-<p>
-  <strong>Benefits:</strong>
-  <% @compaign.benefits.each do |benefit| %>
-    <div><%= benefit.title %></div>
-    <div><%= benefit.description %></div>
-    <% if current_user.id == @compaign.user_id || current_user.admin %>
-      <%= link_to 'Edit', edit_benefit_path(benefit) %> |
-      <%= link_to 'Destroy', benefit, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% if @compaign.video %>
+      <% if @results == nil %>
+        Invalid URL
+        <% else %>
+        <p>
+          <iframe src='https://www.youtube.com/embed/<%= @results[:id] %>?rel=0&autoplay=0 %>' frameborder='0' allowfullscreen width="560" height="390"></iframe>
+        </p>
+      <% end %>
     <% end %>
-  <% end %>
-</p>
+    <div class="text-center">
+    <% if @user && (@user.admin || @user.id == @compaign.user_id) %>
+      <%= link_to 'Edit compaign', edit_compaign_path(@compaign), class: "btn btn-outline-success mb-2" %> <br>
+    <% end %>
+    <%= link_to 'Back', compaigns_path, class: "btn btn-outline-success btn-sm mb-5" %>
+    </div>
+    <hr>
+    <h1 class="text-center">Comments (<span id="comments_count"><%= @compaign.comments.count %></span>)</h1>
 
-<% if current_user && current_user.email == @compaign.user.email %>
-  <%= link_to 'Edit', edit_compaign_path(@compaign) %> |
-  <%= link_to 'Create another one benefit', new_benefit_path(@compaign) %> |
-<% end %>
-<%= link_to 'Back', compaigns_path %>
+    <div id="comment_pane" class="form form-comment">
+      <% @comments.includes(:user).each do |comment|%>
+        <%= render 'comments/comment', comment: comment %>
+        <% if @user && (@user.admin || @user.id == comment.user_id) %>
+          <%= render 'comments/destroy', comment: comment %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="form form-comment">
+      <% if current_user %>
+      <%= form_with model:[@compaign, @comment] do |f|%>
+        <%= f.text_field :body, class: "form-control mb-3", placeholder: "Say something..." %>
+        <%= f.submit "Comment", class: "btn btn-outline-success btn-block" %>
+      <% end %>
+    <% end %>
+    </div>
+  </div>
+
+
+  <div class="col-lg-4">
+    <p>
+  <h3 class="mb-4">Support</h3>
+  <% @compaign.benefits.each do |benefit| %>
+    <div class="benefit mb-3">
+      <h5>Pledge $<%= benefit.sum %> or more</h5>
+        <div class="mb-2"><%= benefit.reward %></div>
+        <div class="text-secondary mb-2"><%= benefit.description %></div>
+        <div class="mb-2">
+          <button class="btn-sm btn-outline-success btn-block btn support">Get it!</button>
+          <div class="form-hide">
+            <%= form_tag compaigns_update_current_sum_path(@compaign), method: :patch do %>
+
+            <div class="field mb-3">
+              <div class="text-center">
+                <div class="d-flex flex-row">
+                <%= number_field(:compaign, :current_sum, value: benefit.sum, class: "form-control" ) %>
+                  <span class="p-2">$</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <div class="text-center">
+                <%= submit_tag "Support", class: "btn btn-outline-success", :name => benefit.id %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        </div>
+        
+        <div class="text-center">
+          <% if @user && (@user.id == @compaign.user_id || @user.admin) %>
+          <%= link_to 'Edit', edit_benefit_path(benefit), class: "btn btn-sm btn-outline-success btn-block" %> 
+          <%= link_to 'Destroy', benefit, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-success btn-block" %>
+        <% end %>
+        </div>
+    </div>
+  <% end %>
+    </p>
+    <% if @user && @user.email == @compaign.user.email %>
+    <div class="text-center">
+      <%= link_to 'Create another one benefit', new_benefit_path(@compaign), class: "btn btn-outline-success btn-sm" %>
+    </div>
+    <% end %>
+
+  </div>
+</div>
+

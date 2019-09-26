@@ -8,7 +8,13 @@ gem 'bootstrap'
 gem 'jquery-rails'
 gem 'popper_js'
 gem 'tether-rails'
-
+gem 'redcarpet'
+gem 'simplemde'
+gem 'jquery-turbolinks'
+gem "bootstrap-table-rails"
+gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate-bootstrap4'
+gem 'ratyrate'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use mysql as the database for Active Record
@@ -34,11 +40,12 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
-
+gem 'mini_magick', '~> 4.8'
+gem "google-cloud-storage", "~> 1.8", require: false
+gem 'active_storage_drag_and_drop'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
+gem 'rack-cors', :require => 'rack/cors'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 

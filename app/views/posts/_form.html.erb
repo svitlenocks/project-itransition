@@ -1,0 +1,50 @@
+<div class="form form-compaign">
+  <%= form_with(model: post, local: true) do |form| %>
+  <% if post.errors.any? %>
+  <div class="alert alert-danger">
+    <div id="error_explanation">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+  <% end %>
+
+  <div class="field mb-3">
+    <div class="text-center">
+      <%= form.label :title %>
+    </div>
+    <%= form.text_field :title, class: "form-control", placeholder: "maximum 135 characters" %>
+  </div>
+
+
+  <div class="field mb-3">
+    <div class="text-center">
+      <%= form.label :description %>
+    </div>
+    <%= form.text_area :description, placeholder: "minimum 42 characters" %>
+  </div>
+
+    <div class="field mb-3">
+    <div class="text-center mb-2">
+      <span>Post image</span>
+    </div>
+    <div class="text-center">
+    <%= form.drag_and_drop_file_field :image, 'Drop an image here, or select a file.' %>
+      
+    </div> 
+  </div>  
+
+
+  <div class="actions">
+    <div class="text-center">
+      <%= form.submit class: "btn btn-outline-success" %>
+    </div>
+  </div>
+<% end %>
+
+</div>

@@ -1,0 +1,33 @@
+<h1 class="text-center m-3">My compaigns</h1>
+
+<table data-toggle="table">
+    <thead>
+      <tr>
+        <th data-sortable="true" data-field="id">#</th>
+        <th data-sortable="true" data-field="title">Title</th>
+        <th data-sortable="true" data-field="current_sum">Current sum, $</th>
+        <th data-sortable="true" data-field="goal">Goal, $</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% current_user.compaigns.each_with_index do |compaign, i| %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td>
+            <%= compaign.title %> 
+          </td>
+          <td>
+            <%= compaign.current_sum %>
+          </td>
+          <td>
+            <%= compaign.goal %>
+          </td>
+          <td class="text-center"><%= link_to 'Show', compaign, class: "btn btn-outline-success btn-sm mr-2" %>
+            <%= link_to 'Edit', edit_compaign_path(compaign), class: "btn btn-outline-success btn-sm mr-2" %>
+            <%= link_to 'Destroy', compaign, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-success btn-sm mr-2" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+</table>

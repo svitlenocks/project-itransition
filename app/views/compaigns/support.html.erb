@@ -1,0 +1,50 @@
+<%= render 'header' %>
+
+<div class="text-center">
+  <h1 class="mb-5">Support this project</h1>
+
+<div class="text-center mb-3">
+  <h5>Make a pledge without a reward</h5>
+  <%= form_tag compaigns_update_current_sum_path(@compaign), method: :patch do %>
+
+  <div class="field mb-3">
+    <div class="text-center">
+      <%= number_field(:compaign, :current_sum, value: 1, class: "form-control form-support d-inline") %>
+      <span>$</span>      
+    </div>
+  </div>
+
+  <div class="actions">
+    <div class="text-center">
+      <%= submit_tag 'Support', class: "btn btn-outline-success" %>
+    </div>
+  </div>
+<% end %>
+</div>
+<div class="d-flex flex-wrap bd-highlight justify-content-center">
+
+<% @compaign.benefits.each do |benefit| %>
+    <div class="benefit mb-2 clcard m-2">
+      <h5>Pledge $<%= benefit.sum %> or more</h5>
+        <div class="mb-2"><%= benefit.reward %></div>
+        <div class="text-secondary mb-2"><%= benefit.description %></div>
+        <div class="text-center">
+        <%= form_tag compaigns_update_current_sum_path(@compaign), method: :patch do %>
+
+  <div class="field mb-3">
+    <div class="text-center">
+      <%= number_field(:compaign, :current_sum, value: benefit.sum ) %>      
+    </div>
+  </div>
+
+  <div class="actions">
+    <div class="text-center">
+      <%= submit_tag "Support", class: "btn btn-outline-success", :name => benefit.id %>
+    </div>
+  </div>
+<% end %>
+        </div>
+    </div>
+  <% end %>
+</div>
+</div>

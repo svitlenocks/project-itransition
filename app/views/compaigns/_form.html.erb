@@ -1,54 +1,87 @@
-<%= form_with(model: compaign, local: true) do |form| %>
-  <% if compaign.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(compaign.errors.count, "error") %> prohibited this compaign from being saved:</h2>
 
-      <ul>
-      <% compaign.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<div class="form form-compaign">
+  <%= form_with(model: compaign, local: true) do |form| %>
+<% if compaign.errors.any? %>
+    <div class="alert alert-danger">
+      <div id="error_explanation">
+        <h2><%= pluralize(compaign.errors.count, "error") %> prohibited this compaign from being saved:</h2>
+
+        <ul>
+        <% compaign.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+  <div class="field mb-3">
+    <div class="text-center">
+      <%= form.label :title %>
+    </div>
+    <%= form.text_field :title, class: "form-control", placeholder: "maximum 135 characters" %>
   </div>
 
-  <div class="field">
-    <%= form.label :project_idea %>
-    <%= form.text_field :project_idea %>
+  <div class="field mb-3">
+    <div class="text-center">
+      <%= form.label :project_idea %>
+    </div>
+    <%= form.text_field :project_idea, class: "form-control", placeholder: "maximum 240 characters" %>
   </div>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
+
+  <div class="field mb-3">
+    <div class="text-center">
+      <%= form.label :description %>
+    </div>
+    <%= form.text_area :description, placeholder: "minimum 42 characters" %>
   </div>
 
-  <div class="field">
-    <%= form.label :goal %>
-    <%= form.text_field :goal %>
+  <div class="field mb-3">
+    <div class="text-center"> 
+      <%= form.label :goal %>
+    </div>
+    <%= form.text_field :goal, class: "form-control", placeholder: "amount in dollars" %>
   </div>
 
-  <div class="field">
-    <%= form.label :endtime %>
-    <%= form.datetime_select :endtime, prompt: { day: 'Select day', month: 'Select month', year: 'Select year'}, discard_hour: true, discard_minute: true, :start_year => Date.current.year, :end_year => Date.current.year + 100 %>
+  <div class="field mb-3">
+    <div class="text-center">
+      <%= form.label :endtime %> <br>
+      <%= form.datetime_select :endtime, prompt: { day: 'Select day', month: 'Select month', year: 'Select year'}, discard_hour: true, discard_minute: true, :start_year => Date.current.year, :end_year => Date.current.year + 100 %> 
+    </div>
+  </div>
+  
+  <div class="field mb-3">
+    <div class="text-center mb-2">
+      <span>Project image</span>
+    </div>
+    <div class="text-center">
+    <%= form.drag_and_drop_file_field :image, 'Drop an image here, or select a file.' %>
+      
+    </div> 
+  </div>  
+
+  <div class="field mb-3">
+    <div class="text-center">
+      <%= form.label :video %>
+    </div>
+    <%= form.text_field :video, class: "form-control", placeholder: "URL for video (YouTube)" %>
   </div>
 
-  <div class="field">
-    <%= form.label :video %>
-    <%= form.text_field :video %>
-  </div>
-
-  <div class="field">
-    <%= form.label :category %>
-    <%= form.collection_select :category, $categories, :to_s, :to_s, include_blank: false %>    
+  <div class="field mb-3">
+    <div class="text-center">
+      <%= form.label :category %>
+      <%= form.collection_select :category, $categories, :to_s, :to_s, include_blank: false %>      
+    </div>
   </div>
 
   
 
   <div class="actions">
-    <%= form.submit %>
+    <div class="text-center">
+      <%= form.submit class: "btn btn-outline-success" %>
+    </div>
   </div>
 <% end %>
+
+</div>

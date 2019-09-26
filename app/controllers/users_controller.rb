@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :locked?
 
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page], per_page: 10)
   end
 
   def update

@@ -1,6 +1,7 @@
-<h1>Editing Compaign</h1>
+<h1 class="text-center">Editing Compaign</h1>
 
 <%= render 'form', compaign: @compaign %>
 
-<%= link_to 'Show', @compaign %> |
-<%= link_to 'Back', compaigns_path %>
+<div class="text-center">
+  <%= link_to 'Back', @compaign, class: "btn btn-outline-success btn-sm mb-5" %>
+</div>

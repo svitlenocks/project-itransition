@@ -1,0 +1,21 @@
+ <%= render 'compaigns/header' %>
+<div class="form form-post">
+  <h2 class="text-center"><%= @post.title %></h2>
+
+<% if @post.image.attached? %>
+        <div class="image-frame">
+          <%= image_tag(@post.image) %>
+        </div>
+      <% end %>
+
+<p>
+  <%= markdown(@post.description) %>
+</p>
+<div class="text-center mb-5">
+  <% if @user && (@user.admin || @user.id == @compaign.user_id) %>
+    <%= link_to 'Edit', edit_post_path(@post), class: "btn btn-outline-success btn-sm mb-2" %>
+  <% end %>
+  <br>
+  <%= link_to "Back", updates_path(Compaign.find_by(id: @post.compaign_id)), class: "btn btn-outline-success btn-sm" %>
+</div>
+</div>

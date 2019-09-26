@@ -1,35 +1,28 @@
-<h1>Compaigns</h1>
+<div class="d-flex flex-wrap bd-highlight justify-content-center">
+  <% @compaigns.each do |compaign|%>
+    <div class="card bd-highlight m-3" style="width: 18rem;">
+      <%= image_tag(compaign.card_image, class: "card-img-top") %>
+      <div class="progress_bar mb-2">
+          <div class="progress_bar_green" style="width: <%= (compaign.current_sum * 100)/compaign.goal %>%">
+          </div>
+        </div>
+    <div class="card-body">
+      <h5 class="card-title"><%= compaign.title %></h5>
+      <p class="card-text"><%= compaign.project_idea %></p>
+      <div class="badge badge-pill badge-success"><%= compaign.goal %> $</div>
+      <br> <small class="text-muted">By <%= compaign.user.name %></small>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Category</th>
-      <th>Goal</th>
-      <th>Project idea</th>
-      <th>Endtime</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @compaigns.each do |compaign| %>
-      <tr>
-        <td><%= compaign.title %></td>
-        <td><%= compaign.category %></td>        
-        <td><%= compaign.goal  %></td>
-        <td><%= compaign.project_idea %></td>
-        <td><%= compaign.endtime.strftime("%B %d, %Y") %></td>
-        <td><%= compaign.user.name %></td>
-        <td><%= link_to 'Show', compaign %></td>
-        <% if current_user && (current_user.admin || current_user.id == compaign.user_id) %>
-          <td><%= link_to 'Edit', edit_compaign_path(compaign) %></td>
-          <td><%= link_to 'Destroy', compaign, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <hr>
+      <div class="d-flex flex-wrap bd-highlight justify-content-center">      
+        <%= link_to 'Show', compaign, class: "btn btn-outline-success btn-sm mr-2" %>
+        <% if @user && (@user.admin || @user.id == compaign.user_id) %>
+            <%= link_to 'Edit', edit_compaign_path(compaign), class: "btn btn-outline-success btn-sm mr-2" %>
+            <%= link_to 'Destroy', compaign, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-success btn-sm mr-2" %>
         <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      </div>
+    </div>
+    </div>
+  <% end %>
+</div>
 
-<br>
+<%= will_paginate @users, renderer: WillPaginate::ActionView::BootstrapLinkRenderer, list_classes: %w(pagination justify-content-center) %>

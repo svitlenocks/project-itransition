@@ -1,0 +1,3 @@
+$('#comment-<%= @comment.id %>').next().remove();
+$('#comment-<%= @comment.id %>').remove();
+$('#comments_count').html($('.comment').length);

@@ -3,7 +3,7 @@ class CreateCompaigns < ActiveRecord::Migration[5.2]
     create_table :compaigns do |t|
       t.string :title
       t.text :description
-      t.decimal :goal, :precision => 9, :scale => 3
+      t.decimal :goal
       t.datetime :endtime
       t.string :video
       t.references :user, foreign_key: true

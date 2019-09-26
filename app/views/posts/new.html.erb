@@ -1,0 +1,6 @@
+<h1 class="text-center">New Post</h1>
+
+<%= render 'form', post: @post %>
+<div class="text-center">
+  <%= link_to 'Back', updates_path(Compaign.find_by(id: $compaign_id_from_request)), class: "btn btn-outline-success btn-sm" %>
+</div>

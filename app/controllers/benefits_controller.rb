@@ -2,6 +2,7 @@ class BenefitsController < ApplicationController
   before_action :set_benefit, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :admin?, except: [:new, :create, :destroy, :edit, :update]
+  before_action :locked?
   # GET /benefits
   # GET /benefits.json
   def index
@@ -66,6 +67,10 @@ class BenefitsController < ApplicationController
   end
 
   private
+    def locked?
+      redirect_to pages_lock_path if  current_user && current_user.locked
+    end
+
     def admin?
       if !current_user.admin
         redirect_to root_path
@@ -78,6 +83,6 @@ class BenefitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def benefit_params
-      params.require(:benefit).permit(:title, :description, :sum, :compaign_id)
+      params.require(:benefit).permit(:reward, :description, :sum, :compaign_id)
     end
 end

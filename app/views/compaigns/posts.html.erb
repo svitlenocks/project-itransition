@@ -1,0 +1,38 @@
+
+<%= render 'header' %>
+
+<h1 class="text-center mb-2">Posts</h1>
+<div class="form-post">
+<% @compaign.posts.with_attached_image.reverse_each do |post| %>
+    <div class="post mb-4">
+      <h5 class="text-center p-2"><%= post.title %></h5>
+      <div class="text-center mb-2">
+        <small class="text-muted"><%= post.created_at %></small>
+      </div>
+      <% if post.image.attached? %>
+        <div class="image-frame">
+          <%= image_tag(post.image) %>
+        </div>
+      <% end %>
+      <p class="p-3"><%= truncate(post.description, length: 200) %></p>
+      <div class="d-flex flex-wrap bd-highlight justify-content-center mb-3">
+        <%= link_to 'Read more', post, class: "btn btn-outline-success btn-sm mr-2" %>
+
+        <% if @user && (@user.admin || @user.id == @compaign.user_id) %>
+              <%= link_to 'Edit', edit_post_path(post), class: "btn btn-outline-success btn-sm mr-2" %>
+              <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-success btn-sm mr-2" %>
+
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<div class="text-center mb-5">
+  <% if @user && (@user.admin || @user.id == @compaign.user_id) %>
+    <%= link_to 'Create post', new_post_path(@compaign), class: "btn btn-outline-success btn-sm mb-2" %>
+  <% end %>
+  <br>
+  <%= link_to "Back to compaign", @compaign, class: "btn btn-outline-success btn-sm" %>
+  
+</div>
+</div>

@@ -1,0 +1,11 @@
+<h1 class="text-center m-3">Supported</h1>
+<div class="d-flex flex-wrap bd-highlight justify-content-center">
+<% @user_benefits.each do |benefit| %>
+    <div class="benefit mb-2 clcard m-2">
+      <h5 class="mb-2"><%= @compaigns.find_by(id: benefit.compaign_id).title %> </h5>
+      <h5>$<%= benefit.sum %> or more</h5>
+        <div class="mb-2"><%= benefit.reward %></div>
+        <div class="text-secondary mb-2"><%= benefit.description %></div>
+    </div>
+  <% end %>
+</div>

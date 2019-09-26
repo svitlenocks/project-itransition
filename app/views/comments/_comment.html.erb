@@ -1,0 +1,9 @@
+<div id="comment-<%= comment.id %>" class="comment mb-3">
+  <div class="mb-2">
+    <p class="m-0 p-0">By <%= comment.user.name %></p>
+    <small class="text-muted"><%= comment.created_at.strftime("%Y.%m.%d, %R") %></small>
+  </div>
+  <div class="mb-2">
+    <%= comment.body %>
+  </div>
+</div>
